@@ -67,9 +67,9 @@ class BurgerBuilder extends React.Component {
     });
   }
 
-  orderSummaryHandler = () => {
+  orderSummaryHandler = (show) => {
     this.setState({
-      orderSummary: true
+      orderSummary: show
     });
   }
 
@@ -81,7 +81,7 @@ class BurgerBuilder extends React.Component {
 
     return (
       <Auxilliary>
-        <Modal visible={this.state.orderSummary}>
+        <Modal visible={this.state.orderSummary} orderSummary={this.orderSummaryHandler}>
           <OrderSummary ingredients={this.state.ingredients} />
         </Modal>
         <Burger ingredients={this.state.ingredients} />
