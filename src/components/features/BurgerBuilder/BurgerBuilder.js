@@ -1,7 +1,9 @@
 import React from 'react';
 import Auxilliary from '../../common/Auxilliary/Auxilliary';
+import Modal from '../../common/Modal/Modal';
 import Burger from '../../features/Burger/Burger';
 import BuildControls from '../../features/BuildControls/BuildControls';
+import OrderSummary from '../../features/OrderSummary/OrderSummary';
 
 const INGREDIENT_PRICES = {
   salad: 2,
@@ -22,7 +24,8 @@ class BurgerBuilder extends React.Component {
         meat: 0,
       },
       totalPrice: 5,
-      purchasable: false
+      purchasable: false, //czy button order now aktywny
+      orderSummary: false //czy pokazywac podsumowanie zamowienia
     }
   }
 
@@ -64,6 +67,12 @@ class BurgerBuilder extends React.Component {
     });
   }
 
+  orderSummaryHandler = () => {
+    this.setState({
+      orderSummary: true
+    });
+  }
+
   render() {
     const disabledInfo = {...this.state.ingredients};
     for(let i in disabledInfo) {
@@ -72,12 +81,16 @@ class BurgerBuilder extends React.Component {
 
     return (
       <Auxilliary>
+        <Modal visible={this.state.orderSummary}>
+          <OrderSummary ingredients={this.state.ingredients} />
+        </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls
           ingredientAdded={this.addIngredientHandler}
           ingredientRemoved={this.removeIngredientHandler}
           disabled={disabledInfo}
           purchasable={this.state.purchasable}
+          orderSummary={this.orderSummaryHandler}
           price={this.state.totalPrice} />
       </Auxilliary>
     );
