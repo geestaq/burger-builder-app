@@ -73,6 +73,10 @@ class BurgerBuilder extends React.Component {
     });
   }
 
+  purchaseContinueHandler = () => {
+    alert('You continue!');
+  }
+
   render() {
     const disabledInfo = {...this.state.ingredients};
     for(let i in disabledInfo) {
@@ -82,7 +86,10 @@ class BurgerBuilder extends React.Component {
     return (
       <Auxilliary>
         <Modal visible={this.state.orderSummary} orderSummary={this.orderSummaryHandler}>
-          <OrderSummary ingredients={this.state.ingredients} />
+          <OrderSummary
+            ingredients={this.state.ingredients}
+            cancelOrder={() => this.orderSummaryHandler(false)}
+            purchaseOrder={this.purchaseContinueHandler} />
         </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls
