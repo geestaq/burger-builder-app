@@ -17,4 +17,14 @@
   nav {
     height: 100%;
   }
+
+  .logo-wrapper {
+    height: 80%;
+  }
+}
+
+@media (max-width: 499px) {
+  .desktop-only {
+    display: none;
+  }
 }

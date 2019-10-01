@@ -6,8 +6,10 @@ import './Toolbar.scss';
 const toolbar = (props) => (
   <header className='toolbar'>
     <div>MENU</div>
-    <Logo />
-    <nav>
+    <div className='logo-wrapper'>
+      <Logo />
+    </div>
+    <nav className='desktop-only'>
       <NavigationItems />
     </nav>
   </header>
