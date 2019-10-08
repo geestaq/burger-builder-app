@@ -1,11 +1,12 @@
 import React from 'react';
 import Logo from '../../common/Logo/Logo';
 import NavigationItems from '../../common/NavigationItems/NavigationItems';
+import DrawerToggle from '../DrawerToggle/DrawerToggle';
 import './Toolbar.scss';
 
 const toolbar = (props) => (
   <header className='toolbar'>
-    <div>MENU</div>
+    <DrawerToggle click={props.toggleSideDrawer}/>
     <div className='logo-wrapper'>
       <Logo />
     </div>

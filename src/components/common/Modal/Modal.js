@@ -5,7 +5,7 @@ import './Modal.scss';
 
 const modal = (props) => (
   <Auxilliary>
-    <Backdrop visible={props.visible} orderSummary={props.orderSummary}></Backdrop>
+    <Backdrop visible={props.visible} clicked={() => props.orderSummary(false)}></Backdrop>
     <div className={props.visible ? 'modal show' : 'modal'}>
       {props.children}
     </div>
