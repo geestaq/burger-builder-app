@@ -3,13 +3,23 @@ import Auxilliary from '../Auxilliary/Auxilliary';
 import Backdrop from '../Backdrop/Backdrop';
 import './Modal.scss';
 
-const modal = (props) => (
-  <Auxilliary>
-    <Backdrop visible={props.visible} clicked={() => props.orderSummary(false)}></Backdrop>
-    <div className={props.visible ? 'modal show' : 'modal'}>
-      {props.children}
-    </div>
-  </Auxilliary>
-);
+class Modal extends React.Component {
 
-export default modal;
+  shouldComponentUpdate(nextProps, nextState) {
+    //poprawa wydajnosci komponentu - render tylko przy zmianie widzialnosci
+    return nextProps.visible !== this.props.visible;
+  }
+
+  render() {
+    return (
+      <Auxilliary>
+        <Backdrop visible={this.props.visible} clicked={() => this.props.orderSummary(false)}></Backdrop>
+        <div className={this.props.visible ? 'modal show' : 'modal'}>
+          {this.props.children}
+        </div>
+      </Auxilliary>
+    );
+  }
+}
+
+export default Modal;
