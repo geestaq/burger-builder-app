@@ -7,7 +7,7 @@ class Modal extends React.Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     //poprawa wydajnosci komponentu - render tylko przy zmianie widzialnosci
-    return nextProps.visible !== this.props.visible;
+    return nextProps.visible !== this.props.visible || nextProps.children !== this.props.children;
   }
 
   render() {
