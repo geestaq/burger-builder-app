@@ -20,17 +20,29 @@ class BurgerBuilder extends React.Component {
     super(props);
 
     this.state = {
-      ingredients: {
-        salad: 0,
-        bacon: 0,
-        cheese: 0,
-        meat: 0,
-      },
+      ingredients: null,
       totalPrice: 5,
       purchasable: false, //czy button order now aktywny
       orderSummary: false, //czy pokazywac podsumowanie zamowienia
-      loading: false
+      loading: false,
+      error: false
     }
+  }
+
+  componentDidMount() {
+    axios.get('/ingredients.json')
+      .then(resp => {
+        //wyliczenie ceny burgera, jesli sa pobrane jakies skladniki
+        let newPrice = 0;
+        for(const prop in resp.data) {
+          newPrice += INGREDIENT_PRICES[prop] * resp.data[prop];
+        }
+        newPrice += this.state.totalPrice;
+        this.setState({ ingredients: resp.data, totalPrice: newPrice });
+      })
+      .catch(error => {
+        this.setState({ error: true });
+      })
   }
 
   addIngredientHandler = (type) => {
@@ -119,11 +131,9 @@ class BurgerBuilder extends React.Component {
       orderSummary = <Spinner/>;
     }
 
-    return (
-      <Auxilliary>
-        <Modal visible={this.state.orderSummary} orderSummary={this.orderSummaryHandler}>
-          {orderSummary}
-        </Modal>
+    let burger = this.state.error ? <p>Error on loading ingredients!</p> : <Spinner />;
+    if(this.state.ingredients) {
+      burger = <Auxilliary>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls
           ingredientAdded={this.addIngredientHandler}
@@ -132,6 +142,15 @@ class BurgerBuilder extends React.Component {
           purchasable={this.state.purchasable}
           orderSummary={this.orderSummaryHandler}
           price={this.state.totalPrice} />
+      </Auxilliary>;
+    }
+
+    return (
+      <Auxilliary>
+        <Modal visible={this.state.orderSummary} orderSummary={this.orderSummaryHandler}>
+          {orderSummary}
+        </Modal>
+        {burger}
       </Auxilliary>
     );
   }
